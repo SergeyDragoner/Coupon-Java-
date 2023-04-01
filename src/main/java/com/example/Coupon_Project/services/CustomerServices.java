@@ -1,5 +1,6 @@
 package com.example.Coupon_Project.services;
 
+import com.example.Coupon_Project.beans.Customer;
 import com.example.Coupon_Project.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,5 +10,10 @@ public class CustomerServices {
 
     public CustomerServices(CustomerRepository customerRepo) {
         this.customerRepo = customerRepo;
+    }
+
+
+    public void addCustomer(Customer customer) {
+        customerRepo.save(customer);
     }
 }
