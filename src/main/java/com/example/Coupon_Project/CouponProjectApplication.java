@@ -37,12 +37,6 @@ public class CouponProjectApplication {
 			System.out.println(e.getMessage());
 		}
 
-//		Administrator client = ctx.getBean(Administrator.class);
-//		try {
-//			client.addCompany(new Company("Adidas", "JustDo", "ad4u"));
-//		} catch (CompanyAlreadyExistException e) {
-//			System.out.println(e.getMessage());
-//		}
 
 
 	}
