@@ -1,4 +1,4 @@
-package com.example.Coupon_Project.exceptions;
+package com.example.Coupon_Project.exceptions.login;
 
 public class ClientInfoIncorrectException extends Exception {
 

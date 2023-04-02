@@ -1,22 +1,21 @@
 package com.example.Coupon_Project.services;
 
-import com.example.Coupon_Project.beans.Customer;
+import com.example.Coupon_Project.repositories.CompanyRepository;
+import com.example.Coupon_Project.repositories.CouponRepository;
 import com.example.Coupon_Project.repositories.CustomerRepository;
 import com.example.Coupon_Project.services.ClientManager.ClientService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerServices extends ClientService {
-    private CustomerRepository customerRepo;
-
-    public CustomerServices() {
-        this.customerRepo = customerRepo;
+    public CustomerServices(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
+        super(companyServices, customerServices, couponServices);
     }
 
 
-    public void addCustomer(Customer customer) {
-        customerRepo.save(customer);
-    }
+//    public void addCustomer(Customer customer) {
+//        customerServices.save(customer);
+//    }
 
     @Override
     public boolean login(String email, String password) {
