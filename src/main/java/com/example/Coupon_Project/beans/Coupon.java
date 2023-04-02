@@ -11,7 +11,7 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "companyId", foreignKey = @ForeignKey(name = "FK_companyId_CouponId"))
     private Company company = new Company();
     @NotNull

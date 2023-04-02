@@ -15,6 +15,6 @@ public class CompanyServices extends ClientService {
 
     @Override
     public boolean login(String email, String password) {
-        return false;
+        return companyServices.existsByEmailAddressAndPassword(email, password);
     }
 }

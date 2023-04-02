@@ -23,7 +23,7 @@ public class Customer {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "customers_coupons",
-            joinColumns = @JoinColumn(name = "customersId", foreignKey = @ForeignKey(name = "FK_couponId_customerId")),//"FK_customerId_couponId"
+            joinColumns = @JoinColumn(name = "customersId", foreignKey = @ForeignKey(name = "FK_couponId_customerId")),
             inverseJoinColumns = @JoinColumn(name = "couponsId", foreignKey = @ForeignKey(name = "FK_customerId_couponId")))
     private List<Coupon> coupons;
 

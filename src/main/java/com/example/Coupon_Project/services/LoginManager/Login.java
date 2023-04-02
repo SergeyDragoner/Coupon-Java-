@@ -35,6 +35,7 @@ public class Login {
 
             case Company:
                 if(companyServices.login(email, password)) {
+                    System.out.println("Welcome Company!");
                     return companyServices;
                 } else {
                     throw new ClientInfoIncorrectException();

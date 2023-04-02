@@ -13,10 +13,6 @@ public class CustomerServices extends ClientService {
     }
 
 
-//    public void addCustomer(Customer customer) {
-//        customerServices.save(customer);
-//    }
-
     @Override
     public boolean login(String email, String password) {
         return false;

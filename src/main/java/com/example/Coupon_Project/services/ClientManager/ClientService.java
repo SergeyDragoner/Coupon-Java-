@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class ClientService {
 
-//    @Autowired
     protected CompanyRepository companyServices;
 
-//    @Autowired
     protected CustomerRepository customerServices;
 
-//    @Autowired
     protected CouponRepository couponServices;
 
     public ClientService(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
