@@ -22,4 +22,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      * @return - Boolean indicating whether the customer emailAddress and Password is in the DB.
      */
     boolean existsByEmailAddressAndPassword(String emailAddress, String password);
+
+//    boolean existsByCouponsId(int coupons_id);
 }

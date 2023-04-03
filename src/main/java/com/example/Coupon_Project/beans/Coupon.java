@@ -2,7 +2,7 @@ package com.example.Coupon_Project.beans;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "coupons")
@@ -11,7 +11,7 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyId", foreignKey = @ForeignKey(name = "FK_companyId_CouponId"))
     private Company company = new Company();
     @NotNull

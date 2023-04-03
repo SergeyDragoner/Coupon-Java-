@@ -71,7 +71,9 @@ public class Company {
                 ", Name: " + name +
                 ", Email: " + emailAddress +
                 ", Password: '" + password +
-                ", Company Coupons: " + (coupons.size() > 0 ? coupons : "0");
+//                ", Company Coupons: " + (coupons.size() > 0 ? coupons : "0");
+                ", Company Coupons: " + coupons;
+
     }
 
 }

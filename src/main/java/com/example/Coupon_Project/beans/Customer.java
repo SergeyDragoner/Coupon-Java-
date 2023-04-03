@@ -75,6 +75,9 @@ public class Customer {
         this.password = password;
     }
 
+    public List<Coupon> getCoupons() {
+        return coupons;
+    }
 
     @Override
     public String toString() {

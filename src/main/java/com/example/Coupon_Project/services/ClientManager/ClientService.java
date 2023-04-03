@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class ClientService {
 
-    protected CompanyRepository companyServices;
+    protected CompanyRepository companyRepository;
 
-    protected CustomerRepository customerServices;
+    protected CustomerRepository customerRepository;
 
-    protected CouponRepository couponServices;
+    protected CouponRepository couponRepository;
 
-    public ClientService(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
-        this.companyServices = companyServices;
-        this.customerServices = customerServices;
-        this.couponServices = couponServices;
+    public ClientService(CompanyRepository companyRepository, CustomerRepository customerRepository, CouponRepository couponRepository) {
+        this.companyRepository = companyRepository;
+        this.customerRepository = customerRepository;
+        this.couponRepository = couponRepository;
     }
 
     public abstract boolean login(String email, String password);

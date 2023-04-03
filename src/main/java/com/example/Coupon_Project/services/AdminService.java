@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class Administrator extends ClientService {
+public class AdminService extends ClientService {
 
-    public Administrator(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
+    public AdminService(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
         super(companyServices, customerServices, couponServices);
     }
 
@@ -33,7 +33,7 @@ public class Administrator extends ClientService {
      */
     @Override
     public boolean login(String email, String password) {
-        return email.equals("admin@admin.com") && password.equals("admin");
+        return email.equalsIgnoreCase("admin@admin.com") && password.equals("admin");
     }
 
     /**
@@ -44,12 +44,21 @@ public class Administrator extends ClientService {
      */
     public void addCompany(Company company) throws CompanyAlreadyExistException {
         //Check if company name and email doesn't already exist.
-        List<Company> companies = companyServices.findAll();
-        for (Company com : companies) {
-            if (company.getName().equals(com.getName()) && company.getEmailAddress().equals(com.getEmailAddress()))
-                throw new CompanyAlreadyExistException();
+//        List<Company> companies = companyServices.findAll();
+//        for (Company com : companies) {
+//            if (company.getName().equals(com.getName()) && company.getEmailAddress().equals(com.getEmailAddress()))
+//                throw new CompanyAlreadyExistException();
+//        }
+
+        if (companyRepository.existsByEmailAddress(company.getEmailAddress())) {
+            throw new CompanyAlreadyExistException();
+//            throw new CompanyAlreadyEx();
         }
-        companyServices.save(company);
+        if (companyRepository.existsByName(company.getName())) {
+            throw new CompanyAlreadyExistException();
+        }
+        companyRepository.save(company);
+
 
     }
 
@@ -63,36 +72,38 @@ public class Administrator extends ClientService {
      */
     public void updateCompany(Company company) throws CompanyDoesntExistException, CompanyNotAllowedToBeChangedException {
         //Cant update the name or ID!
-        Company com = companyServices.findById(company.getId())
+        Company com = companyRepository.findById(company.getId())
                 .orElseThrow(() -> new CompanyDoesntExistException());
         if (company.getName().equals(com.getName()))
-            companyServices.save(company);
+            companyRepository.save(company);
         else
             throw new CompanyNotAllowedToBeChangedException();
     }
 
 
     public void deleteCompany(int companyId) {
-        companyServices.deleteById(companyId);
+        companyRepository.deleteById(companyId);
     }
 
     /**
      * This method is to get all the companies that are currently in the DB.
+     *
      * @return - Empty array of Companies or with values.
      */
     public List<Company> getAllCompanies() {
-        return companyServices.findAll(); //This will return an empty array or full.
+        return companyRepository.findAll(); //This will return an empty array or full.
     }
 
     /**
      * Returns a Company object from the DB if exists!
+     *
      * @param companyId - The company id.
      * @return - Company
      * @throws CompanyDoesntExistException - If company is not in the DB throw an exception.
      */
     public Company getOneCompany(int companyId) throws CompanyDoesntExistException {
-        if (companyServices.existsById(companyId))
-            return companyServices.findById(companyId).orElseThrow(CompanyDoesntExistException::new);
+        if (companyRepository.existsById(companyId))
+            return companyRepository.findById(companyId).orElseThrow(CompanyDoesntExistException::new);
         return null; //This will never be reached!
     }
 
@@ -100,54 +111,58 @@ public class Administrator extends ClientService {
 
     /**
      * This method adds Customer to the DB, only if the customer email is not already exist!.
+     *
      * @param customer - The Customer to add to the DB.
      * @throws CustomerAlreadyExistException - If the Customer email is already in the DB.
      */
     public void addCustomer(Customer customer) throws CustomerAlreadyExistException {
         //Add only if the customer email is not already exist!
-        if (!customerServices.existsCustomerByEmailAddress(customer.getEmailAddress())) {
-            customerServices.save(customer);
+        if (!customerRepository.existsCustomerByEmailAddress(customer.getEmailAddress())) {
+            customerRepository.save(customer);
             System.out.println("Added Customer");
-        }else
+        } else
             throw new CustomerAlreadyExistException();
     }
 
     /**
      * This method updates the Customer in the DB, only if the customer id is the same.
+     *
      * @param customer - The Customer you want to update.
      * @throws CustomerDoesntExistException - If the customer ID is not found in the DB.
      */
     public void updateCustomer(Customer customer) throws CustomerDoesntExistException {
         //Cant update the customer ID.
-        if(customerServices.existsById(customer.getId())) {
-            customerServices.save(customer);
+        if (customerRepository.existsById(customer.getId())) {
+            customerRepository.save(customer);
             return;
         }
         throw new CustomerDoesntExistException();
 
     }
 
-    public void deleteCustomer(int customerId){
+    public void deleteCustomer(int customerId) {
         //customerServices.deleteById(customerId);
     }
 
     /**
      * This method returns a List of all the customers from the DB, or an Empty list.
+     *
      * @return - List of customers.
      */
-    public List<Customer> getAllCustomers(){
-       return customerServices.findAll();
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
 
     }
 
     /**
      * This method is to get a Customer from the DB, if he/she exists.
+     *
      * @param customerId - The ID of the Customer you want to get.
      * @return - The Customer.
      * @throws CustomerDoesntExistException - If Customer is not in the DB!
      */
     public Customer getOneCustomer(int customerId) throws CustomerDoesntExistException {
-        return customerServices.findById(customerId).orElseThrow(CustomerDoesntExistException::new);
+        return customerRepository.findById(customerId).orElseThrow(CustomerDoesntExistException::new);
     }
 
 }
