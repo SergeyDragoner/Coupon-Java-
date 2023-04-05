@@ -47,13 +47,13 @@ public class CustomerServices extends ClientService {
                         customer.getCoupons().add(couponToPurchase);
                         customerRepository.save(customer);
                     } else {
-                        throw new CouponException("The coupon date is EXPIRED!");
+                        throw new CouponException("The coupon date has -->EXPIRED<--!");
                     }
                 } else {
-                    throw new CouponException("The coupon is out of STOCK!");
+                    throw new CouponException("The coupon is out of -->STOCK<--!");
                 }
             } else {
-                throw new CouponException("Coupon " + couponToPurchase.getId() + " already purchased by customer " + customerId);
+                throw new CouponException("Coupon " + couponToPurchase.getId() + " already purchased by customer: " + customer.getEmailAddress());
             }
         } else {
             throw new CouponException("The coupon doesn't exist");

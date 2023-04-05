@@ -22,7 +22,6 @@ public class Login {
             case Administrator:
                 AdminService adminService = ctx.getBean(AdminService.class);
                 if (adminService.login(email, password)) {
-                    System.out.println("Welcome Admin!");
                     return adminService;
                 }
                 throw new ClientInfoIncorrectException();
@@ -31,7 +30,6 @@ public class Login {
             case Company:
                 CompanyServices companyServices = ctx.getBean(CompanyServices.class);
                 if (companyServices.login(email, password)) {
-                    System.out.println("Welcome Company!");
                     return companyServices;
                 }
                 throw new ClientInfoIncorrectException();
@@ -39,7 +37,6 @@ public class Login {
             case Customer:
                 CustomerServices customerServices = ctx.getBean(CustomerServices.class);
                 if (customerServices.login(email, password)) {
-                    System.out.println("Welcome Customer!");
                     return customerServices;
                 }
                 throw new ClientInfoIncorrectException();

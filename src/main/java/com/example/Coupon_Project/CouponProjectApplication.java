@@ -67,8 +67,8 @@ public class CouponProjectApplication {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		//Customer -> --> -->
 		try {
-			CustomerServices customer = (CustomerServices) log.login("lalalala@gmail.com", "1234", ClientType.Customer);
-			Coupon scoup = new Coupon(1, Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 3, 35.99, "");
+			CustomerServices customer = (CustomerServices) log.login("bobM@Gmail.com", "b4abc", ClientType.Customer);
+			Coupon scoup = new Coupon(1, Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, "");
 			customer.purchaseCoupon(scoup);
 //			ArrayList<Coupon> customerCoupons = (ArrayList<Coupon>) customer.getCustomerCoupons();
 //			System.out.println(customerCoupons);

@@ -20,6 +20,10 @@ public class CompanyServices extends ClientService {
 
     private int companyId = 0;
 
+    public int getCompanyId(){
+        return companyId;
+    }
+
     public CompanyServices(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
         super(companyServices, customerServices, couponServices);
     }
