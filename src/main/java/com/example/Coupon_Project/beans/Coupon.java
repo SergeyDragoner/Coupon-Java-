@@ -3,6 +3,7 @@ package com.example.Coupon_Project.beans;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "coupons")
@@ -28,6 +29,8 @@ public class Coupon {
     @NotNull
     private double price;
     private String image;
+    @ManyToMany(mappedBy = "coupons", cascade = CascadeType.ALL)
+    private List<Customer> customer;
 
     public Coupon() {
     }
@@ -111,7 +114,7 @@ public class Coupon {
     @Override
     public String toString() {
         return "Coupon's id: " + id +
-//                ", Company Id: " + companyId +
+                ", Company Id: " + company.getId() +
                 ", Category: " + category +
                 ", Title: " + title +
                 ", Description: " + description +

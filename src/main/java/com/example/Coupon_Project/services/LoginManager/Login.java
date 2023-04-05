@@ -6,24 +6,21 @@ import com.example.Coupon_Project.services.ClientManager.ClientService;
 import com.example.Coupon_Project.services.ClientManager.ClientType;
 import com.example.Coupon_Project.services.CompanyServices;
 import com.example.Coupon_Project.services.CustomerServices;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Login {
+    private final ApplicationContext ctx;
 
-    private final AdminService adminService;
-    private final CompanyServices companyServices;
-    private final CustomerServices customerServices;
-
-    public Login(AdminService adminService, CompanyServices companyServices, CustomerServices customerServices) {
-        this.adminService = adminService;
-        this.companyServices = companyServices;
-        this.customerServices = customerServices;
+    public Login(ApplicationContext ctx) {
+        this.ctx = ctx;
     }
 
     public ClientService login(String email, String password, ClientType clientType) throws ClientInfoIncorrectException {
         switch (clientType) {
             case Administrator:
+                AdminService adminService = ctx.getBean(AdminService.class);
                 if (adminService.login(email, password)) {
                     System.out.println("Welcome Admin!");
                     return adminService;
@@ -32,6 +29,7 @@ public class Login {
 
 
             case Company:
+                CompanyServices companyServices = ctx.getBean(CompanyServices.class);
                 if (companyServices.login(email, password)) {
                     System.out.println("Welcome Company!");
                     return companyServices;
@@ -39,6 +37,7 @@ public class Login {
                 throw new ClientInfoIncorrectException();
 
             case Customer:
+                CustomerServices customerServices = ctx.getBean(CustomerServices.class);
                 if (customerServices.login(email, password)) {
                     System.out.println("Welcome Customer!");
                     return customerServices;

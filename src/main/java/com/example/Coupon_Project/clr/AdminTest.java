@@ -32,7 +32,7 @@ public class AdminTest implements CommandLineRunner {
     public void loginTest() {
         try {
             this.adminService = (AdminService) login.login("admin@admin.com", "admin", ClientType.Administrator);
-            System.out.println("Admin Loggedin succsessfully");
+            System.out.println("Admin Logged successfully");
         } catch (ClientInfoIncorrectException e) {
             System.out.println(e);
         }
