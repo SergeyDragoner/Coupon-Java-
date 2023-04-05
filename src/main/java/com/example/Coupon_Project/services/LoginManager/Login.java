@@ -1,52 +1,49 @@
 package com.example.Coupon_Project.services.LoginManager;
 
 import com.example.Coupon_Project.exceptions.login.ClientInfoIncorrectException;
-import com.example.Coupon_Project.services.Administrator;
+import com.example.Coupon_Project.services.AdminService;
 import com.example.Coupon_Project.services.ClientManager.ClientService;
 import com.example.Coupon_Project.services.ClientManager.ClientType;
 import com.example.Coupon_Project.services.CompanyServices;
 import com.example.Coupon_Project.services.CustomerServices;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
-@ComponentScan("com.example.Coupon_Project.services")
 public class Login {
+    private final ApplicationContext ctx;
 
-    private final Administrator administrator;
-    private final CompanyServices companyServices;
-    private final CustomerServices customerServices;
-
-    public Login(Administrator administrator, CompanyServices companyServices, CustomerServices customerServices) {
-        this.administrator = administrator;
-        this.companyServices = companyServices;
-        this.customerServices = customerServices;
+    public Login(ApplicationContext ctx) {
+        this.ctx = ctx;
     }
 
     public ClientService login(String email, String password, ClientType clientType) throws ClientInfoIncorrectException {
         switch (clientType) {
             case Administrator:
-                if(administrator.login(email, password)) {
+                AdminService adminService = ctx.getBean(AdminService.class);
+                if (adminService.login(email, password)) {
                     System.out.println("Welcome Admin!");
-                    return administrator;
-                } else {
-                    throw new ClientInfoIncorrectException();
+                    return adminService;
                 }
+                throw new ClientInfoIncorrectException();
+
 
             case Company:
-                if(companyServices.login(email, password)) {
+                CompanyServices companyServices = ctx.getBean(CompanyServices.class);
+                if (companyServices.login(email, password)) {
                     System.out.println("Welcome Company!");
                     return companyServices;
-                } else {
-                    throw new ClientInfoIncorrectException();
                 }
+                throw new ClientInfoIncorrectException();
 
             case Customer:
-                if(customerServices.login(email, password)) {
+                CustomerServices customerServices = ctx.getBean(CustomerServices.class);
+                if (customerServices.login(email, password)) {
+                    System.out.println("Welcome Customer!");
                     return customerServices;
-                } else {
-                    throw new ClientInfoIncorrectException();
                 }
+                throw new ClientInfoIncorrectException();
+
         }
         return null;
     }
