@@ -43,4 +43,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      * @return the customer with the given email address and password, or null if not found.
      */
     Customer getCustomerByEmailAddressAndPassword(String emailAddress, String password);
+
+
 }

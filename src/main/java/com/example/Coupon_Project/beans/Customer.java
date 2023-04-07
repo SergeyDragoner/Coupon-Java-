@@ -36,7 +36,6 @@ public class Customer {
         this.emailAddress = emailAddress;
         this.password = password;
         coupons = new ArrayList<>();
-
     }
 
     public int getId() {

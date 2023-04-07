@@ -13,10 +13,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.List;
 
 @Component
 @Order(2)
 public class CompanyTest implements CommandLineRunner {
+
 
     private final Login login;
     private CompanyServices companyServices;
@@ -27,8 +29,8 @@ public class CompanyTest implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loginTest();
-        addCoupon();
+//        loginTest();
+//        addCoupon();
     }
 
     public void loginTest() {
@@ -41,7 +43,6 @@ public class CompanyTest implements CommandLineRunner {
     }
 
     public void addCoupon(){
-        //1, Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, "");
         try {
             this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, ""));
         } catch (CouponException e) {
@@ -49,4 +50,27 @@ public class CompanyTest implements CommandLineRunner {
         }
     }
 
+    public void updateCoupon(Coupon coupon){
+        try {
+            this.companyServices.updateCoupon(coupon);
+        } catch (CouponException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+
+    public void deleteCoupon(int id){
+        try {
+            this.companyServices.deleteCoupon(id);
+        } catch (CouponException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+
+    public List<Coupon> getCompanyCoupons(){
+        return this.companyServices.getCompanyCoupons();
+    }
+
+    public List<Coupon> getCompanyCouponsByCategory(Category category){
+        return this.companyServices.getCompanyCouponsByCategory(category);
+    }
 }

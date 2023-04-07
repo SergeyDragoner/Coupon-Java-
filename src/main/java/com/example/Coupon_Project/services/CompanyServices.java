@@ -18,6 +18,7 @@ import java.util.List;
 @Service
 public class CompanyServices extends ClientService {
 
+    //For getting the company ID after the login
     private int companyId = 0;
 
     public int getCompanyId(){

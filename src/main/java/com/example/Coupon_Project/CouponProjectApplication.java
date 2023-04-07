@@ -2,7 +2,6 @@ package com.example.Coupon_Project;
 
 import com.example.Coupon_Project.beans.Category;
 import com.example.Coupon_Project.beans.Coupon;
-import com.example.Coupon_Project.exceptions.coupons.CouponException;
 import com.example.Coupon_Project.exceptions.customers.CustomerDoesntExistException;
 import com.example.Coupon_Project.exceptions.login.ClientInfoIncorrectException;
 import com.example.Coupon_Project.services.ClientManager.ClientType;
@@ -14,6 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 @SpringBootApplication
 @EnableScheduling
@@ -67,13 +67,13 @@ public class CouponProjectApplication {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		//Customer -> --> -->
 		try {
-			CustomerServices customer = (CustomerServices) log.login("bobM@Gmail.com", "b4abc", ClientType.Customer);
+			CustomerServices customer = (CustomerServices) log.login("lalalala@gmail.com", "1234", ClientType.Customer);
 			Coupon scoup = new Coupon(1, Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, "");
-			customer.purchaseCoupon(scoup);
-//			ArrayList<Coupon> customerCoupons = (ArrayList<Coupon>) customer.getCustomerCoupons();
-//			System.out.println(customerCoupons);
+//			customer.purchaseCoupon(scoup);
+			ArrayList<Coupon> customerCoupons = (ArrayList<Coupon>) customer.getCustomerCoupons();
+			System.out.println(customerCoupons);
 
-		} catch (ClientInfoIncorrectException | CustomerDoesntExistException | CouponException e) {
+		} catch (ClientInfoIncorrectException | CustomerDoesntExistException e) {
 			System.out.println(e.getMessage());
 		}
 
