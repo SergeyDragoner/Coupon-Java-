@@ -92,16 +92,16 @@ public class AdminService extends ClientService {
             int i = 0;
             while (i < customerCoupons.size()) {
                 Coupon coupon = customerCoupons.get(i);
-                if (coupon.getCompanyId() == companyId) {
+                if (coupon.getCompanyId() == companyId)
                     customerCoupons.remove(i);
-                } else {
+                else
                     i++;
-                }
+
             }
             customerRepository.save(customer);
         }
 
-        for(Coupon coupon : companyCoupons) {
+        for (Coupon coupon : companyCoupons) {
             couponRepository.deleteById(coupon.getId());
         }
         companyRepository.deleteById(companyId);
