@@ -39,4 +39,13 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
      */
     Coupon getByTitleAndDescriptionAndCompany_Id(String title, String description, int companyId);
 
+    /**
+     * Returns whether a coupon with the specified title and company ID exists in the system, ignoring case.
+     *
+     * @param title - The title of the coupon to check for
+     * @param companyId - The ID of the company associated with the coupon to check for
+     * @return - true if a coupon with the specified title and company ID exists in the system, ignoring case; false otherwise
+     */
+    boolean existsByTitleAndCompany_Id(String title, int companyId);
+
 }

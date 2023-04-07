@@ -18,8 +18,6 @@ import java.util.List;
 @Component
 @Order(2)
 public class CompanyTest implements CommandLineRunner {
-
-
     private final Login login;
     private CompanyServices companyServices;
 
@@ -35,7 +33,8 @@ public class CompanyTest implements CommandLineRunner {
 
     public void loginTest() {
         try {
-            this.companyServices = (CompanyServices) login.login("JustDoIt@Adidas.das.com", "1234", ClientType.Company);
+//            this.companyServices = (CompanyServices) login.login("JustDoIt@Adidas.das.com", "1234", ClientType.Company);
+            this.companyServices = (CompanyServices) login.login("JustDoIt@Nike.com", "1231233", ClientType.Company);
             System.out.println("Company Logged successfully");
         } catch (ClientInfoIncorrectException e) {
             System.out.println("Exception: " + e.getMessage());
@@ -44,7 +43,8 @@ public class CompanyTest implements CommandLineRunner {
 
     public void addCoupon(){
         try {
-            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, ""));
+//            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, ""));
+            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Bike", "Fastest Bike on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 400, 3599.99, ""));
         } catch (CouponException e) {
             System.out.println(e.getMessage());
         }

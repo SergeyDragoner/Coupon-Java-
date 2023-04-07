@@ -13,8 +13,9 @@ public class CouponExpirationDailyJob {
         this.couponRepository = couponRepository;
     }
 
-    @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 24, initialDelay = 1000 * 60 * 5)
     public void deleteExpirationCoupons() {
         // TODO add query to delete expiration coupons
+
     }
 }

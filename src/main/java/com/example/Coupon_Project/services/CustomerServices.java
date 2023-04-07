@@ -68,6 +68,7 @@ public class CustomerServices extends ClientService {
         } else {
             throw new CouponException("The coupon doesn't exist");
         }
+        System.out.println("Coupon purchased successfully");
     }
 
     /**

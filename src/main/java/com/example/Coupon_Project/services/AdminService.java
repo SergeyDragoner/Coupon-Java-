@@ -1,6 +1,7 @@
 package com.example.Coupon_Project.services;
 
 import com.example.Coupon_Project.beans.Company;
+import com.example.Coupon_Project.beans.Coupon;
 import com.example.Coupon_Project.beans.Customer;
 import com.example.Coupon_Project.exceptions.companies.CompanyAlreadyExistException;
 import com.example.Coupon_Project.exceptions.companies.CompanyDoesntExistException;
@@ -44,21 +45,13 @@ public class AdminService extends ClientService {
      */
     public void addCompany(Company company) throws CompanyAlreadyExistException {
         //Check if company name and email doesn't already exist.
-//        List<Company> companies = companyServices.findAll();
-//        for (Company com : companies) {
-//            if (company.getName().equals(com.getName()) && company.getEmailAddress().equals(com.getEmailAddress()))
-//                throw new CompanyAlreadyExistException();
-//        }
-
         if (companyRepository.existsByEmailAddress(company.getEmailAddress())) {
             throw new CompanyAlreadyExistException();
-//            throw new CompanyAlreadyEx();
         }
         if (companyRepository.existsByName(company.getName())) {
             throw new CompanyAlreadyExistException();
         }
         companyRepository.save(company);
-
 
     }
 
@@ -75,13 +68,42 @@ public class AdminService extends ClientService {
         Company com = companyRepository.findById(company.getId())
                 .orElseThrow(() -> new CompanyDoesntExistException());
         if (company.getName().equals(com.getName()))
-            companyRepository.save(company);
+            companyRepository.save(com);
         else
             throw new CompanyNotAllowedToBeChangedException();
     }
 
 
-    public void deleteCompany(int companyId) {
+    /**
+     * Deletes a company and all associated coupons and coupon purchases from the system.
+     *
+     * @param companyId the ID of the company to delete
+     * @throws CompanyDoesntExistException if no company with the specified ID exists
+     */
+    public void deleteCompany(int companyId) throws CompanyDoesntExistException {
+        //Delete the company and the coupon's history!
+        if (!companyRepository.existsById(companyId))
+            throw new CompanyDoesntExistException();
+
+        List<Coupon> companyCoupons = couponRepository.getCouponsByCompany_Id(companyId);
+        List<Customer> allCustomers = customerRepository.findAll();
+        for (Customer customer : allCustomers) {
+            List<Coupon> customerCoupons = customer.getCoupons();
+            int i = 0;
+            while (i < customerCoupons.size()) {
+                Coupon coupon = customerCoupons.get(i);
+                if (coupon.getCompanyId() == companyId) {
+                    customerCoupons.remove(i);
+                } else {
+                    i++;
+                }
+            }
+            customerRepository.save(customer);
+        }
+
+        for(Coupon coupon : companyCoupons) {
+            couponRepository.deleteById(coupon.getId());
+        }
         companyRepository.deleteById(companyId);
     }
 
@@ -140,8 +162,16 @@ public class AdminService extends ClientService {
 
     }
 
-    public void deleteCustomer(int customerId) {
-        //customerServices.deleteById(customerId);
+    /**
+     * Deletes a customer from the DB by the given customer ID.
+     *
+     * @param customerId - the ID of the customer to delete
+     * @throws CustomerDoesntExistException - if the customer does not exist in the system
+     */
+    public void deleteCustomer(int customerId) throws CustomerDoesntExistException {
+        if (!customerRepository.existsById(customerId))
+            throw new CustomerDoesntExistException();
+        customerRepository.deleteById(customerId);
     }
 
     /**

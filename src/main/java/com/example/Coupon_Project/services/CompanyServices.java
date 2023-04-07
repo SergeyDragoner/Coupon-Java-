@@ -44,19 +44,22 @@ public class CompanyServices extends ClientService {
      * @param coupon Coupon to be added
      * @throws CouponException if a coupon with the same title already exists for the same company
      */
+    /**
+     * Adds a new coupon to the system.
+     *
+     * @param coupon the coupon to add
+     * @throws CouponException if a coupon with the same title already exists for the same company
+     */
     public void addCoupon(Coupon coupon) throws CouponException {
-        ArrayList<Coupon> companyCoupons = (ArrayList<Coupon>) couponRepository.findAll();
-        boolean flag = true;
-        for (Coupon couponCoupon : companyCoupons) {
-            if (couponCoupon.getTitle().equalsIgnoreCase(coupon.getTitle()) && couponCoupon.getCompanyId() == coupon.getCompanyId()) {
-                flag = false;
-                break;
-            }
-        }
-        if (flag)
-            couponRepository.save(coupon);
-        else
+        // Check if a coupon with the same title and company already exists
+        boolean exists = couponRepository.existsByTitleAndCompany_Id(coupon.getTitle(), coupon.getCompanyId());
+        if (exists) {
             throw new CouponException("Cannot add a coupon with the same title to the same company");
+        }
+
+        // Save the new coupon
+        couponRepository.save(coupon);
+        System.out.println("Coupon added to system for the company: " + companyId);
     }
 
 
