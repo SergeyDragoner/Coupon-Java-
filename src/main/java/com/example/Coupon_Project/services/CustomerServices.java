@@ -12,9 +12,10 @@ import com.example.Coupon_Project.services.ClientManager.ClientService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,31 +45,30 @@ public class CustomerServices extends ClientService {
      * @Transactional - Ensures that the method executes within a transactional context.
      */
     @Transactional
-    public void purchaseCoupon(Coupon coupon) throws CustomerDoesntExistException, CouponException {
-        Date currentDate = new Date(System.currentTimeMillis());
+    public void purchaseCouponForCustomer(int customerId, Coupon coupon) throws CustomerDoesntExistException, CouponException {
         checkIfCustomerExists(customerId);
-        Customer customer = customerRepository.findById(customerId).get();
-        if (couponRepository.existsByTitleAndDescriptionAndCompany_Id(coupon.getTitle(), coupon.getDescription(), coupon.getCompanyId())) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
             Coupon couponToPurchase = couponRepository.getByTitleAndDescriptionAndCompany_Id(coupon.getTitle(), coupon.getDescription(), coupon.getCompanyId());
-            if (!customer.getCoupons().contains(couponToPurchase)) {
-                if (couponToPurchase.getAmount() > 0) {
-                    if (couponToPurchase.getEndDate().after(currentDate)) {
-                        couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
-                        customer.getCoupons().add(couponToPurchase);
-                        customerRepository.save(customer);
-                    } else {
-                        throw new CouponException("The coupon date has -->EXPIRED<--!");
-                    }
-                } else {
-                    throw new CouponException("The coupon is out of -->STOCK<--!");
-                }
-            } else {
-                throw new CouponException("Coupon " + couponToPurchase.getId() + " already purchased by customer: " + customer.getEmailAddress());
+            if (couponToPurchase == null) {
+                throw new CouponException("The coupon doesn't exist");
             }
-        } else {
-            throw new CouponException("The coupon doesn't exist");
+            if (customer.getCoupons().contains(couponToPurchase)) {
+                throw new CouponException(String.format("Coupon %d already purchased by customer: %s", couponToPurchase.getId(), customer.getEmailAddress()));
+            }
+            if (couponToPurchase.getAmount() <= 0) {
+                throw new CouponException("The coupon is out of stock");
+            }
+            if (couponToPurchase.getEndDate().before(new Date(System.currentTimeMillis()))) {
+                System.out.println(couponToPurchase.getEndDate());
+                throw new CouponException("You cannot purchase the coupon because, the coupon date has expired");
+            }
+            couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
+            customer.getCoupons().add(couponToPurchase);
+            customerRepository.save(customer);
+            System.out.println("Coupon purchased successfully");
         }
-        System.out.println("Coupon purchased successfully");
     }
 
     /**

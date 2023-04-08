@@ -26,9 +26,9 @@ public class CompanyTest implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-//        loginTest();
-//        addCoupon();
+    public void run(String... args){
+        loginTest();
+        addCoupon();
     }
 
     public void loginTest() {
@@ -41,10 +41,10 @@ public class CompanyTest implements CommandLineRunner {
         }
     }
 
-    public void addCoupon(){
+    public void addCoupon() {
         try {
-//            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 4, 35.99, ""));
-            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Bike", "Fastest Bike on planet", Date.valueOf("2023-04-03"),Date.valueOf("2023-12-12") , 400, 3599.99, ""));
+//            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-04-08"), Date.valueOf("2023-04-09"), 4, 35.99, ""));
+            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Bike", "Fastest Bike on planet", Date.valueOf("2023-04-08"), Date.valueOf("2023-04-08"), 400, 3599.99, ""));
         } catch (CouponException e) {
             System.out.println(e.getMessage());
         }

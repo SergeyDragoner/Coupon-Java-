@@ -13,6 +13,7 @@ import com.example.Coupon_Project.services.ClientManager.ClientService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class CompanyServices extends ClientService {
     //For getting the company ID after the login
     private int companyId = 0;
 
-    public int getCompanyId(){
+    public int getCompanyId() {
         return companyId;
     }
 
@@ -31,19 +32,14 @@ public class CompanyServices extends ClientService {
 
     @Override
     public boolean login(String email, String password) {
-        if(companyRepository.existsByEmailAddressAndPassword(email, password))
-            companyId = companyRepository.getCompanyByEmailAddressAndPassword(email,password).getId();
+        if (companyRepository.existsByEmailAddressAndPassword(email, password))
+            companyId = companyRepository.getCompanyByEmailAddressAndPassword(email, password).getId();
         return companyRepository.existsByEmailAddressAndPassword(email, password);
     }
 
 
     // TODO check if you need to pass companyId in each companyService methods
-    /**
-     * Add a new coupon for the company
-     *
-     * @param coupon Coupon to be added
-     * @throws CouponException if a coupon with the same title already exists for the same company
-     */
+
     /**
      * Adds a new coupon to the system.
      *
@@ -56,12 +52,13 @@ public class CompanyServices extends ClientService {
         if (exists) {
             throw new CouponException("Cannot add a coupon with the same title to the same company");
         }
-
-        // Save the new coupon
-        couponRepository.save(coupon);
-        System.out.println("Coupon added to system for the company: " + companyId);
+        if (new Date(System.currentTimeMillis()).before(coupon.getEndDate())) {
+            // Save the new coupon
+            couponRepository.save(coupon);
+            System.out.println("Coupon added to system for the company: " + companyId);
+        }else
+            throw new CouponException("Cannot add a Coupon with expired date");
     }
-
 
 
     /**
@@ -82,7 +79,6 @@ public class CompanyServices extends ClientService {
         } else
             throw new CouponException("You cannot update the Coupon ID or The coupon Do not exist!");
     }
-
 
 
     /**
@@ -106,7 +102,6 @@ public class CompanyServices extends ClientService {
     }
 
 
-
     /**
      * Get all coupons of the company
      *
@@ -115,7 +110,6 @@ public class CompanyServices extends ClientService {
     public List<Coupon> getCompanyCoupons() {
         return couponRepository.getCouponsByCompany_Id(companyId);
     }
-
 
 
     /**
@@ -127,13 +121,12 @@ public class CompanyServices extends ClientService {
     public List<Coupon> getCompanyCouponsByCategory(Category category) {
         ArrayList<Coupon> companyCoupons = (ArrayList<Coupon>) couponRepository.getCouponsByCompany_Id(companyId);
         ArrayList<Coupon> companyCouponsByCategory = new ArrayList<>();
-        for (Coupon companyCoupon : companyCoupons){
-            if(companyCoupon.getCategory().equals(category))
+        for (Coupon companyCoupon : companyCoupons) {
+            if (companyCoupon.getCategory().equals(category))
                 companyCouponsByCategory.add(companyCoupon);
         }
         return companyCouponsByCategory;
     }
-
 
 
     /**

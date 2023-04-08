@@ -28,9 +28,9 @@ public class AdminTest implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         loginTest();
-//        addCompanyTest();
-//        addCustomerTest();
-        deleteCompany(1);
+        addCompanyTest();
+        addCustomerTest();
+//        deleteCompany(1);
     }
 
     public void loginTest() {
