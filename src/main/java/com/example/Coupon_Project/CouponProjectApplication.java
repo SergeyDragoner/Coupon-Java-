@@ -12,7 +12,6 @@ public class CouponProjectApplication {
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext ctx =  SpringApplication.run(CouponProjectApplication.class, args);
-
 	}
 
 }
