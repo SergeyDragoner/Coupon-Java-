@@ -59,12 +59,20 @@ public class AdminTest implements CommandLineRunner {
         }
     }
 
-    public void deleteCompany(int id){
+    public void deleteCompany(int id) {
         try {
             this.adminService.deleteCompany(id);
         } catch (CompanyDoesntExistException e) {
             System.out.println(e.getMessage());
         }
     }
+
+    /*
+      updateCompany
+      getAllCompanies
+      updateCustomer
+      deleteCustomer
+      getOneCustomer
+      */
 
 }
