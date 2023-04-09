@@ -10,13 +10,16 @@ import com.example.Coupon_Project.repositories.CompanyRepository;
 import com.example.Coupon_Project.repositories.CouponRepository;
 import com.example.Coupon_Project.repositories.CustomerRepository;
 import com.example.Coupon_Project.services.ClientManager.ClientService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Scope("prototype")
 public class CompanyServices extends ClientService {
 
     //For getting the company ID after the login
@@ -55,8 +58,8 @@ public class CompanyServices extends ClientService {
         if (new Date(System.currentTimeMillis()).before(coupon.getEndDate())) {
             // Save the new coupon
             couponRepository.save(coupon);
-            System.out.println("Coupon added to system for the company: " + companyId);
-        }else
+            System.out.println("Coupon added to the DB for the company with id: " + companyId);
+        } else
             throw new CouponException("Cannot add a Coupon with expired date");
     }
 
@@ -68,37 +71,47 @@ public class CompanyServices extends ClientService {
      * @throws CouponException - if the coupon ID or company ID is attempted to be changed, or the company ID of the coupon being updated is different from the company's ID
      */
     public void updateCoupon(Coupon coupon) throws CouponException {
-        //Can't update coupon ID & Company ID
-        if (couponRepository.existsById(coupon.getId())) {
-            Coupon couponToCheck = couponRepository.findById(coupon.getId()).orElseThrow();
-            if (couponToCheck.getCompanyId() == coupon.getCompanyId()) {
+        // Can't update coupon ID & Company ID
+        Optional<Coupon> couponOptional = couponRepository.findById(coupon.getId());
+        if (couponOptional.isPresent()) {
+            Coupon couponFromDB = couponOptional.get();
+            if (couponFromDB.getCompanyId() == companyId) {
                 couponRepository.save(coupon);
+                System.out.println("Coupon updated successfully!");
             } else {
-                throw new CouponException("Cannot update the company ID!");
+                throw new CouponException("Cannot update the coupon ID or company ID!");
             }
-        } else
-            throw new CouponException("You cannot update the Coupon ID or The coupon Do not exist!");
+        } else {
+            throw new CouponException("Coupon does not exist!");
+        }
     }
 
 
     /**
-     * Delete a coupon of the company and the history of the buyers(Customers).
+     * Delete a coupon of the company and the history of the buyers (customers).
      *
      * @param couponId - ID of the coupon to be deleted.
      * @throws CouponException - if the coupon doesn't exist.
      */
     public void deleteCoupon(int couponId) throws CouponException {
-        if (couponRepository.existsById(couponId)) {
-            ArrayList<Customer> customersToDelete = (ArrayList<Customer>) customerRepository.findAllByCouponsId(couponId);
-            System.out.println(customersToDelete);
-            if (customersToDelete.size() > 0) {
-                for (Customer customer : customersToDelete) {
-                    customerRepository.deleteById(customer.getId());
-                }
-            }
-            couponRepository.deleteById(couponId);
-        } else
-            throw new CouponException("Sorry The coupon doesn't exist!");
+        // Check if the coupon exists in the coupon repository
+        Optional<Coupon> couponOptional = couponRepository.findById(couponId);
+        if (couponOptional.isPresent()) {
+            Coupon coupon = couponOptional.get();
+            // Find all customers who have the coupon in their coupon list
+            List<Customer> customers = customerRepository.findAllByCouponsId(couponId);
+            // Remove the coupon from each customer's coupon list and save the updated customer
+            customers.forEach(customer -> {
+                customer.getCoupons().remove(coupon);
+                customerRepository.save(customer);
+            });
+            // Delete the coupon from the coupon repository
+            couponRepository.deleteById(coupon.getId());
+        } else {
+            // Throw a CouponException if the coupon doesn't exist
+            throw new CouponException("The coupon with ID " + couponId + " doesn't exist.");
+        }
+        System.out.println("Successfully deleted the coupon with ID: " + couponId);
     }
 
 

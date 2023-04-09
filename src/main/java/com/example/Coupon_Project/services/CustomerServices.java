@@ -9,6 +9,7 @@ import com.example.Coupon_Project.repositories.CompanyRepository;
 import com.example.Coupon_Project.repositories.CouponRepository;
 import com.example.Coupon_Project.repositories.CustomerRepository;
 import com.example.Coupon_Project.services.ClientManager.ClientService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Scope("prototype")
 public class CustomerServices extends ClientService {
 
     //For getting the customer ID after the login
@@ -33,6 +35,9 @@ public class CustomerServices extends ClientService {
         if (customerRepository.existsByEmailAddressAndPassword(email, password))
             customerId = customerRepository.getCustomerByEmailAddressAndPassword(email, password).getId();
         return customerRepository.existsByEmailAddressAndPassword(email, password);
+    }
+    public int getCustomerId() {
+        return customerId;
     }
 
 

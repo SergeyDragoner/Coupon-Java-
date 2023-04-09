@@ -12,11 +12,14 @@ import com.example.Coupon_Project.repositories.CompanyRepository;
 import com.example.Coupon_Project.repositories.CouponRepository;
 import com.example.Coupon_Project.repositories.CustomerRepository;
 import com.example.Coupon_Project.services.ClientManager.ClientService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Scope("prototype")
 public class AdminService extends ClientService {
 
     public AdminService(CompanyRepository companyServices, CustomerRepository customerServices, CouponRepository couponServices) {
@@ -52,6 +55,7 @@ public class AdminService extends ClientService {
             throw new CompanyAlreadyExistException();
         }
         companyRepository.save(company);
+        System.out.println("Company " + company.getName() + " with the email: " + company.getEmailAddress() + ", added successfully ");
 
     }
 
@@ -65,12 +69,17 @@ public class AdminService extends ClientService {
      */
     public void updateCompany(Company company) throws CompanyDoesntExistException, CompanyNotAllowedToBeChangedException {
         //Cant update the name or ID!
-        Company com = companyRepository.findById(company.getId())
-                .orElseThrow(() -> new CompanyDoesntExistException());
-        if (company.getName().equals(com.getName()))
-            companyRepository.save(com);
-        else
-            throw new CompanyNotAllowedToBeChangedException();
+        Optional<Company> companyOptional = companyRepository.findById(company.getId());
+        if(companyOptional.isPresent()) {
+           Company companyFromDB = companyOptional.get();
+            if (company.getName().equals(companyFromDB.getName())) {
+                companyRepository.save(company);
+                System.out.println("Company " + companyFromDB.getName() + ", updated successfully");
+            } else
+                throw new CompanyNotAllowedToBeChangedException();
+        } else
+            throw new CompanyDoesntExistException();
+
     }
 
 
@@ -105,6 +114,7 @@ public class AdminService extends ClientService {
             couponRepository.deleteById(coupon.getId());
         }
         companyRepository.deleteById(companyId);
+        System.out.println("Company with companyId: " + companyId +", deleted successfully");
     }
 
     /**
@@ -172,6 +182,7 @@ public class AdminService extends ClientService {
         if (!customerRepository.existsById(customerId))
             throw new CustomerDoesntExistException();
         customerRepository.deleteById(customerId);
+        System.out.println("Customer with ID " + customerId + ", deleted successfully");
     }
 
     /**
