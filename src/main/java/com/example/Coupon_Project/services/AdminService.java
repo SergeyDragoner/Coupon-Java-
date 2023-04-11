@@ -70,8 +70,8 @@ public class AdminService extends ClientService {
     public void updateCompany(Company company) throws CompanyDoesntExistException, CompanyNotAllowedToBeChangedException {
         //Cant update the name or ID!
         Optional<Company> companyOptional = companyRepository.findById(company.getId());
-        if(companyOptional.isPresent()) {
-           Company companyFromDB = companyOptional.get();
+        if (companyOptional.isPresent()) {
+            Company companyFromDB = companyOptional.get();
             if (company.getName().equals(companyFromDB.getName())) {
                 companyRepository.save(company);
                 System.out.println("Company " + companyFromDB.getName() + ", updated successfully");
@@ -114,7 +114,7 @@ public class AdminService extends ClientService {
             couponRepository.deleteById(coupon.getId());
         }
         companyRepository.deleteById(companyId);
-        System.out.println("Company with companyId: " + companyId +", deleted successfully");
+        System.out.println("Company with companyId: " + companyId + ", deleted successfully");
     }
 
     /**
@@ -134,9 +134,9 @@ public class AdminService extends ClientService {
      * @throws CompanyDoesntExistException - If company is not in the DB throw an exception.
      */
     public Company getOneCompany(int companyId) throws CompanyDoesntExistException {
-        if (companyRepository.existsById(companyId))
-            return companyRepository.findById(companyId).orElseThrow(CompanyDoesntExistException::new);
-        return null; //This will never be reached!
+//        if (companyRepository.existsById(companyId))
+        return companyRepository.findById(companyId).orElseThrow(CompanyDoesntExistException::new);
+//        return null; //This will never be reached!
     }
 
     //Customer -> --> --->
@@ -164,11 +164,10 @@ public class AdminService extends ClientService {
      */
     public void updateCustomer(Customer customer) throws CustomerDoesntExistException {
         //Cant update the customer ID.
-        if (customerRepository.existsById(customer.getId())) {
-            customerRepository.save(customer);
-            return;
-        }
-        throw new CustomerDoesntExistException();
+        if (!customerRepository.existsById(customer.getId()))
+            throw new CustomerDoesntExistException();
+
+        customerRepository.save(customer);
 
     }
 
@@ -192,7 +191,6 @@ public class AdminService extends ClientService {
      */
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
-
     }
 
     /**
