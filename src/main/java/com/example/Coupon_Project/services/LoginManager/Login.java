@@ -7,9 +7,11 @@ import com.example.Coupon_Project.services.ClientManager.ClientType;
 import com.example.Coupon_Project.services.CompanyServices;
 import com.example.Coupon_Project.services.CustomerServices;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope("prototype")
 public class Login {
     private final ApplicationContext ctx;
 

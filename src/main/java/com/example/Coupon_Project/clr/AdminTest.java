@@ -51,7 +51,7 @@ public class AdminTest implements CommandLineRunner {
             getAllCustomersTest();
             getOneCustomerTest(2);
         }
-        System.out.println("----------------End Of Admin Test ----------------");
+        System.out.println("----------------End Of Admin Test ----------------\n\n");
     }
 
     public boolean loginTest() {
@@ -108,8 +108,8 @@ public class AdminTest implements CommandLineRunner {
     public void addCustomerTest() {
         try {
             customer = new Customer("Java", "mish", "mishigine@gmail.com", "1234");
-            this.adminService.addCustomer(new Customer("Java", "Proxy", "bobProxy@Gmail.com", "1234"));
-            this.adminService.addCustomer(new Customer("TeSvA", "YX", "tesva@Gmail.com", "1234"));
+            this.adminService.addCustomer(new Customer("Java", "Proxy", "bobProxy@gmail.com", "1234"));
+            this.adminService.addCustomer(new Customer("TeSvA", "YX", "tesva@gmail.com", "1234"));
             this.adminService.addCustomer(customer);
         } catch (CustomerAlreadyExistException e) {
             System.out.println("Exception: " + e.getMessage());
@@ -139,7 +139,7 @@ public class AdminTest implements CommandLineRunner {
 
     public void getOneCustomerTest(int customerID) {
         try {
-            System.out.println("One Customer \n -> --> ---> " + this.adminService.getOneCustomer(customerID));
+            System.out.println("One Customer -> --> ---> \n" + this.adminService.getOneCustomer(customerID));
         } catch (CustomerDoesntExistException e) {
             System.out.println(e.getMessage());
         }

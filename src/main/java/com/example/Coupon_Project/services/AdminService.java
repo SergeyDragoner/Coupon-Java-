@@ -151,7 +151,7 @@ public class AdminService extends ClientService {
         //Add only if the customer email is not already exist!
         if (!customerRepository.existsCustomerByEmailAddress(customer.getEmailAddress())) {
             customerRepository.save(customer);
-            System.out.println("Added Customer");
+            System.out.println("Added Customer " + customer.getFirstName() + " " + customer.getLastName());
         } else
             throw new CustomerAlreadyExistException();
     }

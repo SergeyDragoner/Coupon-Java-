@@ -72,7 +72,7 @@ public class CustomerServices extends ClientService {
             couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
             customer.getCoupons().add(couponToPurchase);
             customerRepository.save(customer);
-            System.out.println("Coupon purchased successfully");
+            System.out.println("Coupon '" + coupon.getTitle()+"' purchased successfully");
         }
     }
 

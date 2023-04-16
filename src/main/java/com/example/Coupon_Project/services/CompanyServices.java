@@ -58,7 +58,7 @@ public class CompanyServices extends ClientService {
         if (new Date(System.currentTimeMillis()).before(coupon.getEndDate())) {
             // Save the new coupon
             couponRepository.save(coupon);
-            System.out.println("Coupon added to the DB for the company with id: " + companyId);
+            System.out.println("Coupon " + coupon.getTitle()+" added to the DB for the company with id: " + companyId);
         } else
             throw new CouponException("Cannot add a Coupon with expired date");
     }
@@ -94,7 +94,7 @@ public class CompanyServices extends ClientService {
      * @throws CouponException - if the coupon doesn't exist.
      */
     public void deleteCoupon(int couponId) throws CouponException {
-        // Check if the coupon exists in the coupon repository
+        // Check if the coupon exists in the DB
         Optional<Coupon> couponOptional = couponRepository.findById(couponId);
         if (couponOptional.isPresent()) {
             Coupon coupon = couponOptional.get();
