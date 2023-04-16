@@ -39,7 +39,7 @@ public class CompanyTest implements CommandLineRunner {
             couponBike.setDescription("First Ever fastest Bike EVER!!");
             couponBike.setEndDate(Date.valueOf("2024-01-01"));
             updateCouponTest(couponBike);
-//            deleteCouponTest(2);
+            deleteCouponTest(2);
             getCompanyCouponsTest();
             getCompanyCouponsByCategoryTest(Category.Restaurant);
             getCompanyCouponsByMaxPriceTest(22.89);

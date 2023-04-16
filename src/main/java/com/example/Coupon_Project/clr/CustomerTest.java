@@ -45,7 +45,7 @@ public class CustomerTest implements CommandLineRunner {
             this.customerServices = (CustomerServices) login.login("mishigine@gmail.com", "1234", ClientType.Customer);
             System.out.println("Customer " + this.customerServices.getCustomerDetails().getEmailAddress() + " Logged in successfully");
             return true;
-        } catch (ClientInfoIncorrectException e) {
+        } catch (ClientInfoIncorrectException | CustomerDoesntExistException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -90,6 +90,10 @@ public class CustomerTest implements CommandLineRunner {
     }
 
     public void getCustomerDetailsTest() {
-        System.out.println("Customer Information: \n" + this.customerServices.getCustomerDetails());
+        try {
+            System.out.println("Customer Information: \n" + this.customerServices.getCustomerDetails());
+        } catch (CustomerDoesntExistException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

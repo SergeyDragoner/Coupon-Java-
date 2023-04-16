@@ -46,6 +46,7 @@ public class AdminTest implements CommandLineRunner {
             ///////////////////////////////Customer Services ////////////////////////////////
             addCustomerTest();
             customer.setFirstName("Baby Shark");
+            customer.setLastName("Tu Tu Du Du Du");
             updateCustomerTest(customer);
             deleteCustomerTest(1);
             getAllCustomersTest();
@@ -119,6 +120,7 @@ public class AdminTest implements CommandLineRunner {
     public void updateCustomerTest(Customer customer) {
         try {
             this.adminService.updateCustomer(customer);
+            System.out.println("Updated Customer with ID: " + customer.getId());
         } catch (CustomerDoesntExistException e) {
             System.out.println(e.getMessage());
         }

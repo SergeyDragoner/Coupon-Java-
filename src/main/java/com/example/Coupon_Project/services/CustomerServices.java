@@ -123,8 +123,8 @@ public class CustomerServices extends ClientService {
      * @return - The customer object containing details about the customer.
      * @throws CustomerDoesntExistException - If the customer does not exist.
      */
-    public Customer getCustomerDetails() {
-        return customerRepository.findById(customerId).orElseThrow();
+    public Customer getCustomerDetails() throws CustomerDoesntExistException {
+        return customerRepository.findById(customerId).orElseThrow(CustomerDoesntExistException::new);
     }
 
     /**
