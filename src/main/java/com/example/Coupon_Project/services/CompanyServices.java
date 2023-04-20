@@ -132,7 +132,7 @@ public class CompanyServices extends ClientService {
      * @return - list of coupons of the company with the specified category
      */
     public List<Coupon> getCompanyCouponsByCategory(Category category) {
-        ArrayList<Coupon> companyCoupons = (ArrayList<Coupon>) couponRepository.getCouponsByCompany_Id(companyId);
+        ArrayList<Coupon> companyCoupons = (ArrayList<Coupon>) getCompanyCoupons();
         ArrayList<Coupon> companyCouponsByCategory = new ArrayList<>();
         for (Coupon companyCoupon : companyCoupons) {
             if (companyCoupon.getCategory().equals(category))
@@ -149,7 +149,7 @@ public class CompanyServices extends ClientService {
      * @return list of coupons of the company with price up to the specified maximum price
      */
     public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice) {
-        List<Coupon> companyCoupons = couponRepository.getCouponsByCompany_Id(companyId);
+        List<Coupon> companyCoupons = getCompanyCoupons();
         List<Coupon> companyCouponsByMaxPrice = new ArrayList<>();
         for (Coupon companyCoupon : companyCoupons) {
             if (companyCoupon.getPrice() <= maxPrice)

@@ -36,6 +36,7 @@ public class CustomerServices extends ClientService {
             customerId = customerRepository.getCustomerByEmailAddressAndPassword(email, password).getId();
         return customerRepository.existsByEmailAddressAndPassword(email, password);
     }
+
     public int getCustomerId() {
         return customerId;
     }
@@ -46,7 +47,7 @@ public class CustomerServices extends ClientService {
      *
      * @param coupon - The coupon to be purchased.
      * @throws CustomerDoesntExistException - If the customer does not exist in the system.
-     * @throws CouponException - If the coupon is not available or has expired, or if it has already been purchased by the customer.
+     * @throws CouponException              - If the coupon is not available or has expired, or if it has already been purchased by the customer.
      * @Transactional - Ensures that the method executes within a transactional context.
      */
     @Transactional
@@ -72,7 +73,7 @@ public class CustomerServices extends ClientService {
             couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
             customer.getCoupons().add(couponToPurchase);
             customerRepository.save(customer);
-            System.out.println("Coupon '" + coupon.getTitle()+"' purchased successfully");
+            System.out.println("Coupon '" + coupon.getTitle() + "' purchased successfully");
         }
     }
 

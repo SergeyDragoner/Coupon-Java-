@@ -31,7 +31,7 @@ public class AdminTest implements CommandLineRunner {
     private Customer customer;
 
     @Override
-    public void run(String... args){
+    public void run(String... args) {
         System.out.println("---------------- Admin Services ----------------");
 
         if (loginTest()) {

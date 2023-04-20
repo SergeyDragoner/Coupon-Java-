@@ -55,7 +55,7 @@ public class CompanyTest implements CommandLineRunner {
 //            this.companyServices = (CompanyServices) login.login("JustDoIt@Adidas.das.com", "1234", ClientType.Company);
 //            this.companyServices = (CompanyServices) login.login("JustDoIt@Nike.com", "1231233", ClientType.Company);
             this.companyServices = (CompanyServices) login.login("JeffyJeff@gmail.com", "4321", ClientType.Company);
-            System.out.println("Company "+ this.companyServices.getCompanyDetails().getName()+" Logged successfully");
+            System.out.println("Company " + this.companyServices.getCompanyDetails().getName() + " Logged successfully");
             return true;
         } catch (ClientInfoIncorrectException | CompanyDoesntExistException e) {
             System.out.println("Exception: " + e.getMessage());
@@ -91,12 +91,12 @@ public class CompanyTest implements CommandLineRunner {
     }
 
     public void getCompanyCouponsTest() {
-        System.out.println("All Company Coupons: \n" +this.companyServices.getCompanyCoupons());
+        System.out.println("All Company Coupons: \n" + this.companyServices.getCompanyCoupons());
     }
 
     public void getCompanyCouponsByCategoryTest(Category category) {
 //        System.out.println("Company Coupons by category: " + category);
-        System.out.println("Company Coupons by category: " + category + "\n"+ this.companyServices.getCompanyCouponsByCategory(category));
+        System.out.println("Company Coupons by category: " + category + "\n" + this.companyServices.getCompanyCouponsByCategory(category));
     }
 
     public void getCompanyCouponsByMaxPriceTest(double maxPrice) {
