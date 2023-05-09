@@ -32,9 +32,12 @@ public class CustomerServices extends ClientService {
 
     @Override
     public boolean login(String email, String password) {
-        if (customerRepository.existsByEmailAddressAndPassword(email, password))
-            customerId = customerRepository.getCustomerByEmailAddressAndPassword(email, password).getId();
-        return customerRepository.existsByEmailAddressAndPassword(email, password);
+        Customer customer = customerRepository.getCustomerByEmailAddressAndPassword(email, password);
+        if (customer != null) {
+            customerId = customer.getId();
+            return true;
+        }
+        return false;
     }
 
     public int getCustomerId() {
@@ -51,7 +54,7 @@ public class CustomerServices extends ClientService {
      * @Transactional - Ensures that the method executes within a transactional context.
      */
     @Transactional
-    public void purchaseCouponForCustomer(int customerId, Coupon coupon) throws CustomerDoesntExistException, CouponException {
+    public void purchaseCouponForCustomer(Coupon coupon) throws CustomerDoesntExistException, CouponException {
         checkIfCustomerExists(customerId);
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         if (optionalCustomer.isPresent()) {

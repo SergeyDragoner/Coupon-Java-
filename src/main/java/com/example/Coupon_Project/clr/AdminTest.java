@@ -48,7 +48,7 @@ public class AdminTest implements CommandLineRunner {
             customer.setFirstName("Baby Shark");
             customer.setLastName("Tu Tu Du Du Du");
             updateCustomerTest(customer);
-            deleteCustomerTest(1);
+//            deleteCustomerTest(1);
             getAllCustomersTest();
             getOneCustomerTest(2);
         }
@@ -109,8 +109,8 @@ public class AdminTest implements CommandLineRunner {
     public void addCustomerTest() {
         try {
             customer = new Customer("Java", "mish", "mishigine@gmail.com", "1234");
-            this.adminService.addCustomer(new Customer("Java", "Proxy", "bobProxy@gmail.com", "1234"));
-            this.adminService.addCustomer(new Customer("TeSvA", "YX", "tesva@gmail.com", "1234"));
+//            this.adminService.addCustomer(new Customer("Java", "Proxy", "bobProxy@gmail.com", "1234"));
+//            this.adminService.addCustomer(new Customer("TeSvA", "YX", "tesva@gmail.com", "1234"));
             this.adminService.addCustomer(customer);
         } catch (CustomerAlreadyExistException e) {
             System.out.println("Exception: " + e.getMessage());

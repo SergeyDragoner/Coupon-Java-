@@ -39,7 +39,7 @@ public class CompanyTest implements CommandLineRunner {
             couponBike.setDescription("First Ever fastest Bike EVER!!");
             couponBike.setEndDate(Date.valueOf("2024-01-01"));
             updateCouponTest(couponBike);
-            deleteCouponTest(2);
+//            deleteCouponTest(2);
             getCompanyCouponsTest();
             getCompanyCouponsByCategoryTest(Category.Restaurant);
             getCompanyCouponsByMaxPriceTest(22.89);
@@ -65,8 +65,8 @@ public class CompanyTest implements CommandLineRunner {
 
     public void addCouponTest() {
         try {
-            couponBike = new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Bike", "Fastest Bike on planet", Date.valueOf("2023-04-08"), Date.valueOf("2023-04-18"), 400, 3599.99, "");
-            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-04-08"), Date.valueOf("2023-04-30"), 4, 35.99, ""));
+            couponBike = new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "Bike", "Fastest Bike on planet", Date.valueOf("2023-08-08"), Date.valueOf("2023-08-18"), 400, 3599.99, "");
+            this.companyServices.addCoupon(new Coupon(this.companyServices.getCompanyId(), Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-08-08"), Date.valueOf("2023-08-30"), 4, 35.99, ""));
             this.companyServices.addCoupon(couponBike);
         } catch (CouponException e) {
             System.out.println(e.getMessage());

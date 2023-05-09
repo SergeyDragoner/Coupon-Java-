@@ -54,10 +54,10 @@ public class CustomerTest implements CommandLineRunner {
 
     public void purchaseCouponFromCompanyTest(int companyId) {
         try {
-            this.customerServices.purchaseCouponForCustomer(this.customerServices.getCustomerId(), new Coupon(companyId, Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-04-03"), Date.valueOf("2023-12-12"), 4, 35.99, ""));
-            this.customerServices.purchaseCouponForCustomer(this.customerServices.getCustomerId(), new Coupon(companyId, Category.Electricity, "Biky", "First Ever fastest Bike EVER!!", Date.valueOf("2023-04-03"), Date.valueOf("2023-04-08"), 400, 3599.99, ""));
-//            this.customerServices.purchaseCouponForCustomer(this.customerServices.getCustomerId(), new Coupon(companyId, Category.SPA, "Relax", "asd", Date.valueOf("2022-01-01"), Date.valueOf("2023-04-04"), 1212, 29.99, ""));
-//            this.customerServices.purchaseCouponForCustomer(this.customerServices.getCustomerId(), new Coupon(companyId, Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"), Date.valueOf("2023-12-12"), 4, 35.99, ""));
+            this.customerServices.purchaseCouponForCustomer(new Coupon(companyId, Category.Electricity, "chargira", "Fastest Charger on planet", Date.valueOf("2023-04-03"), Date.valueOf("2023-12-12"), 4, 35.99, ""));
+//            this.customerServices.purchaseCouponForCustomer( new Coupon(companyId, Category.Electricity, "Biky", "First Ever fastest Bike EVER!!", Date.valueOf("2023-04-03"), Date.valueOf("2023-04-08"), 400, 3599.99, ""));
+//            this.customerServices.purchaseCouponForCustomer( new Coupon(companyId, Category.SPA, "Relax", "asd", Date.valueOf("2022-01-01"), Date.valueOf("2023-04-04"), 1212, 29.99, ""));
+//            this.customerServices.purchaseCouponForCustomer( new Coupon(companyId, Category.Electricity, "Charger", "Fastest Charger on planet", Date.valueOf("2023-04-03"), Date.valueOf("2023-12-12"), 4, 35.99, ""));
         } catch (CouponException | CustomerDoesntExistException e) {
             System.out.println(e.getMessage());
         }

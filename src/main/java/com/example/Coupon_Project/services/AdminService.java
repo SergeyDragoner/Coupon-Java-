@@ -180,6 +180,14 @@ public class AdminService extends ClientService {
     public void deleteCustomer(int customerId) throws CustomerDoesntExistException {
         if (!customerRepository.existsById(customerId))
             throw new CustomerDoesntExistException();
+
+        Optional<Customer> custOptional = customerRepository.findById(customerId);
+        if(custOptional.isPresent()) {
+        Customer customer = custOptional.get();
+            customer.getCoupons().removeAll(customer.getCoupons());
+            customerRepository.save(customer);
+        }
+
         customerRepository.deleteById(customerId);
         System.out.println("Customer with ID " + customerId + ", deleted successfully");
     }

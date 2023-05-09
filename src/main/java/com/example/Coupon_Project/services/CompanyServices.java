@@ -35,9 +35,12 @@ public class CompanyServices extends ClientService {
 
     @Override
     public boolean login(String email, String password) {
-        if (companyRepository.existsByEmailAddressAndPassword(email, password))
-            companyId = companyRepository.getCompanyByEmailAddressAndPassword(email, password).getId();
-        return companyRepository.existsByEmailAddressAndPassword(email, password);
+        Company company = companyRepository.getCompanyByEmailAddressAndPassword(email, password);
+        if (company != null) {
+            companyId = company.getId();
+            return true;
+        }
+        return false;
     }
 
 
@@ -58,7 +61,7 @@ public class CompanyServices extends ClientService {
         if (new Date(System.currentTimeMillis()).before(coupon.getEndDate())) {
             // Save the new coupon
             couponRepository.save(coupon);
-            System.out.println("Coupon " + coupon.getTitle()+" added to the DB for the company with id: " + companyId);
+            System.out.println("Coupon " + coupon.getTitle() + " added to the DB for the company with id: " + companyId);
         } else
             throw new CouponException("Cannot add a Coupon with expired date");
     }
